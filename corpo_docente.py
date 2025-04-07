@@ -42,9 +42,10 @@ def extrair_dados_docentes():
                             if len(email_text) > 1:
                                 email = email_text[1].strip()
                         
-                        proximo_p = p.find_next('p')
-                        if proximo_p and 'E-mail:' in proximo_p.text:
-                            email = proximo_p.text.split('E-mail:')[1].strip()
+                        if not email:
+                            proximo_p = p.find_next('p')
+                            if proximo_p and 'E-mail:' in proximo_p.text:
+                                email = proximo_p.text.split('E-mail:')[1].strip()
                         
                         docentes.append({
                             'Nome': nome,
