@@ -23,7 +23,10 @@ def extrair_dados_docentes():
 
                         linha_pesquisa = ''
                         if 'Linha de Pesquisa:' in p.text:
-                            linha_pesquisa = p.text.split('Linha de Pesquisa:')[1].split('<br>')[0].strip()
+                            texto = p.get_text(separator='<br>', strip=True)
+                            partes = texto.split('Linha de Pesquisa:')
+                            if len(partes) > 1:
+                                linha_pesquisa = partes[1].split('<br>')[0].strip()
                         
                         lattes = ''
                         lattes_link = p.find('a', href=lambda x: x and 'lattes.cnpq.br' in x)
@@ -57,7 +60,7 @@ def extrair_dados_docentes():
         print("\nDados dos Docentes:")
         print(df)
         
-        df.to_csv('docentes_ppgti.csv', index=False, encoding='utf-8')
+        df.to_csv('docentes_ppgti.csv', index=False, encoding='utf-8-sig')
         print("\nDados salvos em 'docentes_ppgti.csv'")
     else:
         print("Erro ao acessar a página:", response.status_code)
